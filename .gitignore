@@ -1,0 +1,39 @@
+# --- Unity ---
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+.vsconfig
+
+# Addressables cache (keep catalogs/JSONs, ignore caches)
+Assets/StreamingAssets/aa*/*/cache*/
+
+# Generated project files
+*.csproj
+*.sln
+*.user
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+
+# IDEs
+.vs/
+.idea/
+.vscode/
+.gradle/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep core Unity folders
+!Assets/
+!ProjectSettings/
+!Packages/
