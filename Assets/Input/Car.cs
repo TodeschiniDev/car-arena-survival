@@ -109,6 +109,15 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reverse"",
+                    ""type"": ""Value"",
+                    ""id"": ""c94c2b86-09b0-4174-8f77-38c12afba2dc"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -155,6 +164,28 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63f482f0-e7d6-40e3-98dd-8cd3d14943d2"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6de0e18-c351-4a4b-b3a8-cbf75dbba32b"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -165,6 +196,7 @@ public partial class @Car: IInputActionCollection2, IDisposable
         m_CarActionMap = asset.FindActionMap("CarActionMap", throwIfNotFound: true);
         m_CarActionMap_Accelerate = m_CarActionMap.FindAction("Accelerate", throwIfNotFound: true);
         m_CarActionMap_Brake = m_CarActionMap.FindAction("Brake", throwIfNotFound: true);
+        m_CarActionMap_Reverse = m_CarActionMap.FindAction("Reverse", throwIfNotFound: true);
     }
 
     ~@Car()
@@ -247,6 +279,7 @@ public partial class @Car: IInputActionCollection2, IDisposable
     private List<ICarActionMapActions> m_CarActionMapActionsCallbackInterfaces = new List<ICarActionMapActions>();
     private readonly InputAction m_CarActionMap_Accelerate;
     private readonly InputAction m_CarActionMap_Brake;
+    private readonly InputAction m_CarActionMap_Reverse;
     /// <summary>
     /// Provides access to input actions defined in input action map "CarActionMap".
     /// </summary>
@@ -266,6 +299,10 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CarActionMap/Brake".
         /// </summary>
         public InputAction @Brake => m_Wrapper.m_CarActionMap_Brake;
+        /// <summary>
+        /// Provides access to the underlying input action "CarActionMap/Reverse".
+        /// </summary>
+        public InputAction @Reverse => m_Wrapper.m_CarActionMap_Reverse;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -298,6 +335,9 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Reverse.started += instance.OnReverse;
+            @Reverse.performed += instance.OnReverse;
+            @Reverse.canceled += instance.OnReverse;
         }
 
         /// <summary>
@@ -315,6 +355,9 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Reverse.started -= instance.OnReverse;
+            @Reverse.performed -= instance.OnReverse;
+            @Reverse.canceled -= instance.OnReverse;
         }
 
         /// <summary>
@@ -369,5 +412,12 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBrake(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reverse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReverse(InputAction.CallbackContext context);
     }
 }
