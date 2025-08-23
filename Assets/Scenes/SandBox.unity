@@ -382,7 +382,6 @@ GameObject:
   - component: {fileID: 1642285370}
   - component: {fileID: 1642285371}
   - component: {fileID: 1642285372}
-  - component: {fileID: 1642285373}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -507,7 +506,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &1642285371
 MonoBehaviour:
@@ -526,6 +525,7 @@ MonoBehaviour:
   reverseForce: 5
   maxForwardSpeed: 20
   maxReverseSpeed: 5
+  maxTurnTorque: 25.4
 --- !u!114 &1642285372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,30 +599,43 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c94c2b86-09b0-4174-8f77-38c12afba2dc
     m_ActionName: 'CarActionMap/Reverse[/XInputControllerWindows/leftTrigger,/Keyboard/s]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1642285371}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: TurnRightInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 44e62422-bdc8-4490-87ab-af2752b77379
+    m_ActionName: 'CarActionMap/TurnRight[/XInputControllerWindows/leftStick/right,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1642285371}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: TurnLeftInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dd11564a-3645-4bca-8080-51316afb433b
+    m_ActionName: 'CarActionMap/TurnLeft[/XInputControllerWindows/leftStick/left,/Keyboard/a]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: CarActionMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1642285373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642285365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 817f3454a9194b042a7d7e63c3470760, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpeedCurve
-  speedCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxTime: 5
 --- !u!1 &1662986456
 GameObject:
   m_ObjectHideFlags: 0

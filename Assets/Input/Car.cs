@@ -118,6 +118,24 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TurnRight"",
+                    ""type"": ""Value"",
+                    ""id"": ""44e62422-bdc8-4490-87ab-af2752b77379"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TurnLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd11564a-3645-4bca-8080-51316afb433b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -186,6 +204,50 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""action"": ""Reverse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59c5f017-74aa-4bb7-a3b3-2564fede3f3f"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46b25d29-74e0-4766-ab85-a121fd6dd36e"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bbd6e99-48d9-428f-b535-2f0174d3d51c"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62c72a29-6eb0-4d27-9b67-7466c797e6bf"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -197,6 +259,8 @@ public partial class @Car: IInputActionCollection2, IDisposable
         m_CarActionMap_Accelerate = m_CarActionMap.FindAction("Accelerate", throwIfNotFound: true);
         m_CarActionMap_Brake = m_CarActionMap.FindAction("Brake", throwIfNotFound: true);
         m_CarActionMap_Reverse = m_CarActionMap.FindAction("Reverse", throwIfNotFound: true);
+        m_CarActionMap_TurnRight = m_CarActionMap.FindAction("TurnRight", throwIfNotFound: true);
+        m_CarActionMap_TurnLeft = m_CarActionMap.FindAction("TurnLeft", throwIfNotFound: true);
     }
 
     ~@Car()
@@ -280,6 +344,8 @@ public partial class @Car: IInputActionCollection2, IDisposable
     private readonly InputAction m_CarActionMap_Accelerate;
     private readonly InputAction m_CarActionMap_Brake;
     private readonly InputAction m_CarActionMap_Reverse;
+    private readonly InputAction m_CarActionMap_TurnRight;
+    private readonly InputAction m_CarActionMap_TurnLeft;
     /// <summary>
     /// Provides access to input actions defined in input action map "CarActionMap".
     /// </summary>
@@ -303,6 +369,14 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CarActionMap/Reverse".
         /// </summary>
         public InputAction @Reverse => m_Wrapper.m_CarActionMap_Reverse;
+        /// <summary>
+        /// Provides access to the underlying input action "CarActionMap/TurnRight".
+        /// </summary>
+        public InputAction @TurnRight => m_Wrapper.m_CarActionMap_TurnRight;
+        /// <summary>
+        /// Provides access to the underlying input action "CarActionMap/TurnLeft".
+        /// </summary>
+        public InputAction @TurnLeft => m_Wrapper.m_CarActionMap_TurnLeft;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -338,6 +412,12 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Reverse.started += instance.OnReverse;
             @Reverse.performed += instance.OnReverse;
             @Reverse.canceled += instance.OnReverse;
+            @TurnRight.started += instance.OnTurnRight;
+            @TurnRight.performed += instance.OnTurnRight;
+            @TurnRight.canceled += instance.OnTurnRight;
+            @TurnLeft.started += instance.OnTurnLeft;
+            @TurnLeft.performed += instance.OnTurnLeft;
+            @TurnLeft.canceled += instance.OnTurnLeft;
         }
 
         /// <summary>
@@ -358,6 +438,12 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Reverse.started -= instance.OnReverse;
             @Reverse.performed -= instance.OnReverse;
             @Reverse.canceled -= instance.OnReverse;
+            @TurnRight.started -= instance.OnTurnRight;
+            @TurnRight.performed -= instance.OnTurnRight;
+            @TurnRight.canceled -= instance.OnTurnRight;
+            @TurnLeft.started -= instance.OnTurnLeft;
+            @TurnLeft.performed -= instance.OnTurnLeft;
+            @TurnLeft.canceled -= instance.OnTurnLeft;
         }
 
         /// <summary>
@@ -419,5 +505,19 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReverse(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TurnRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTurnRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TurnLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTurnLeft(InputAction.CallbackContext context);
     }
 }

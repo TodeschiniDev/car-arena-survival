@@ -8,12 +8,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float accelerationForce = 10f;
     [SerializeField] float brakeForce = 10f;
     [SerializeField] float reverseForce = 5f;
+    [SerializeField] float torqueForce = 5f;
     [SerializeField] float maxForwardSpeed = 50f;
     [SerializeField] float maxReverseSpeed = 20f;
+    [SerializeField] float maxTorque = 30f;
 
     private float accelerationInputValue;
     private float brakeInputValue;
-    private float reverseInput;
+    private float reverseInputValue;
+    private float turnRightInputValue;
+    private float turnLeftInputValue;
 
     public void AccelerationInput(InputAction.CallbackContext context)
     {
@@ -27,7 +31,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void ReverseInput(InputAction.CallbackContext context)
     {
-        reverseInput = context.ReadValue<float>();
+        reverseInputValue = context.ReadValue<float>();
+    }
+
+    public void TurnRightInput(InputAction.CallbackContext context)
+    {
+        turnRightInputValue = context.ReadValue<float>();
+    }
+    public void TurnLeftInput(InputAction.CallbackContext context)
+    {
+        turnLeftInputValue = context.ReadValue<float>();
     }
     void Start()
     {
@@ -39,12 +52,14 @@ public class PlayerMovement : MonoBehaviour
         Accelerate();
         Brake();
         Reverse();
+        TurnRight();
+        TurnLeft();
     }
 
     void Accelerate()
     {
-        Vector3 acceleration = new Vector3(accelerationInputValue, 0, 0) * accelerationForce;
-        if(player_rb.linearVelocity.x < maxForwardSpeed)
+        Vector3 acceleration =  transform.right * accelerationInputValue * accelerationForce;
+        if (player_rb.linearVelocity.magnitude < maxForwardSpeed)
         {
             player_rb.AddForce(acceleration, ForceMode.Force);
         }
@@ -61,10 +76,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Reverse()
     {
-        Vector3 reverse = new Vector3(-reverseInput, 0, 0) * reverseForce;
+        Vector3 reverse = new Vector3(-reverseInputValue, 0, 0) * reverseForce;
         if (player_rb.linearVelocity.x <= 0f)
         {
             player_rb.AddForce(reverse, ForceMode.Force);
+        }
+    }
+
+    void TurnRight()
+    {
+        Vector3 torque = new Vector3(0, turnRightInputValue, 0) * torqueForce;
+        if ((player_rb.angularVelocity.y < maxTorque))
+        {
+            player_rb.AddTorque(Vector3.up * turnRightInputValue * torqueForce);
+        }
+    }
+
+    void TurnLeft()
+    {
+        Vector3 torque = new Vector3(0, -turnLeftInputValue, 0) * torqueForce;
+        if(Mathf.Abs(player_rb.angularVelocity.y) < maxTorque)
+        {
+            player_rb.AddTorque(Vector3.up * -turnLeftInputValue * torqueForce);
         }
     }
 }
