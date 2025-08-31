@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] Transform frontAxle;
@@ -48,20 +48,20 @@ public class PlayerMovement : MonoBehaviour
 
         float forwardSpeed = Vector3.Dot(rb.linearVelocity, forward);
 
-        if(forwardSpeed < maxSpeed)
+        if (forwardSpeed < maxSpeed)
             rb.AddForce(forward * accelInput * accelForce, ForceMode.Force);
 
-        if(Mathf.Abs(forwardSpeed) > 0.01f)
+        if (Mathf.Abs(forwardSpeed) > 0.01f)
             rb.AddForce(-forward * brakeInput * brakeForce, ForceMode.Force);
 
-        if(forwardSpeed < 0.01f && forwardSpeed > -maxReverse)
+        if (forwardSpeed < 0.01f && forwardSpeed > -maxReverse)
             rb.AddForce(-forward * reverseInput * reverseForce, ForceMode.Force);
 
         float steerAngle = steerInput * maxSteerAngleDeg;
         Vector3 wheelsForwardDirection = Quaternion.AngleAxis(steerAngle, Vector3.up) * forward;
         Vector3 wheelsPerpendicularDirection = Vector3.Cross(Vector3.up, wheelsForwardDirection).normalized;
 
-        float currentCorneringGrip= Mathf.InverseLerp(0f, maxCorneringGrip, Mathf.Abs(forwardSpeed));
+        float currentCorneringGrip = Mathf.InverseLerp(0f, maxCorneringGrip, Mathf.Abs(forwardSpeed));
 
         float lateralForceMagnitude = corneringForce * currentCorneringGrip * steerInput;
 
@@ -69,11 +69,21 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForceAtPosition(lateralForce, frontAxle.position, ForceMode.Force);
 
-        float xSpeed = Vector3.Dot(rb.linearVelocity, right);
-        Vector3 xVelocity = right * xSpeed;
+        Vector3 forwardVelocity = Vector3.Project(rb.linearVelocity, forward);
+        Vector3 sidewayVelocity = Vector3.Project(rb.linearVelocity, right);
 
-        Vector3 targetVelocity = rb.linearVelocity - xVelocity * (1f - driftFactor);
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * gripRecovery);
+        Vector3 targetSideVelocity = sidewayVelocity * driftFactor;
+        sidewayVelocity = Vector3.Lerp(sidewayVelocity, targetSideVelocity, gripRecovery * Time.fixedDeltaTime);
+        rb.linearVelocity = forwardVelocity + sidewayVelocity;
+
+        //float xSpeed = Vector3.Dot(rb.linearVelocity, right);
+        //Vector3 xVelocity = right * xSpeed;
+
+        //Vector3 targetVelocity = rb.linearVelocity - xVelocity * (1f - driftFactor);
+
+
+
+        //rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * gripRecovery);
 
         if (downForce > 0f)
             rb.AddForce(-Vector3.up * downForce * Mathf.Abs(forwardSpeed), ForceMode.Force);

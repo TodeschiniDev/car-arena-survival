@@ -120,22 +120,13 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""TurnRight"",
+                    ""name"": ""Steer"",
                     ""type"": ""Value"",
-                    ""id"": ""44e62422-bdc8-4490-87ab-af2752b77379"",
+                    ""id"": ""609f5ecd-a5bb-4d09-8487-0ff1e20ede87"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""TurnLeft"",
-                    ""type"": ""Button"",
-                    ""id"": ""dd11564a-3645-4bca-8080-51316afb433b"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,48 +197,70 @@ public partial class @Car: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""59c5f017-74aa-4bb7-a3b3-2564fede3f3f"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""32b0f305-2b89-4770-9011-3b183e852102"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TurnRight"",
-                    ""isComposite"": false,
+                    ""action"": ""Steer"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""46b25d29-74e0-4766-ab85-a121fd6dd36e"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TurnRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1bbd6e99-48d9-428f-b535-2f0174d3d51c"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TurnLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""62c72a29-6eb0-4d27-9b67-7466c797e6bf"",
+                    ""name"": ""negative"",
+                    ""id"": ""5959131a-0096-402e-baf7-8c25acf8c578"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TurnLeft"",
+                    ""action"": ""Steer"",
                     ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f4e43290-e1bb-4bbc-b660-40c68a7b4a39"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""6866c890-d5be-4eec-90f3-21361551a26b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9ef7c299-2c99-432d-97ae-522c0c71008b"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""952c68cd-050d-42db-a9ca-ca6130ee8d10"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -259,8 +272,7 @@ public partial class @Car: IInputActionCollection2, IDisposable
         m_CarActionMap_Accelerate = m_CarActionMap.FindAction("Accelerate", throwIfNotFound: true);
         m_CarActionMap_Brake = m_CarActionMap.FindAction("Brake", throwIfNotFound: true);
         m_CarActionMap_Reverse = m_CarActionMap.FindAction("Reverse", throwIfNotFound: true);
-        m_CarActionMap_TurnRight = m_CarActionMap.FindAction("TurnRight", throwIfNotFound: true);
-        m_CarActionMap_TurnLeft = m_CarActionMap.FindAction("TurnLeft", throwIfNotFound: true);
+        m_CarActionMap_Steer = m_CarActionMap.FindAction("Steer", throwIfNotFound: true);
     }
 
     ~@Car()
@@ -344,8 +356,7 @@ public partial class @Car: IInputActionCollection2, IDisposable
     private readonly InputAction m_CarActionMap_Accelerate;
     private readonly InputAction m_CarActionMap_Brake;
     private readonly InputAction m_CarActionMap_Reverse;
-    private readonly InputAction m_CarActionMap_TurnRight;
-    private readonly InputAction m_CarActionMap_TurnLeft;
+    private readonly InputAction m_CarActionMap_Steer;
     /// <summary>
     /// Provides access to input actions defined in input action map "CarActionMap".
     /// </summary>
@@ -370,13 +381,9 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Reverse => m_Wrapper.m_CarActionMap_Reverse;
         /// <summary>
-        /// Provides access to the underlying input action "CarActionMap/TurnRight".
+        /// Provides access to the underlying input action "CarActionMap/Steer".
         /// </summary>
-        public InputAction @TurnRight => m_Wrapper.m_CarActionMap_TurnRight;
-        /// <summary>
-        /// Provides access to the underlying input action "CarActionMap/TurnLeft".
-        /// </summary>
-        public InputAction @TurnLeft => m_Wrapper.m_CarActionMap_TurnLeft;
+        public InputAction @Steer => m_Wrapper.m_CarActionMap_Steer;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -412,12 +419,9 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Reverse.started += instance.OnReverse;
             @Reverse.performed += instance.OnReverse;
             @Reverse.canceled += instance.OnReverse;
-            @TurnRight.started += instance.OnTurnRight;
-            @TurnRight.performed += instance.OnTurnRight;
-            @TurnRight.canceled += instance.OnTurnRight;
-            @TurnLeft.started += instance.OnTurnLeft;
-            @TurnLeft.performed += instance.OnTurnLeft;
-            @TurnLeft.canceled += instance.OnTurnLeft;
+            @Steer.started += instance.OnSteer;
+            @Steer.performed += instance.OnSteer;
+            @Steer.canceled += instance.OnSteer;
         }
 
         /// <summary>
@@ -438,12 +442,9 @@ public partial class @Car: IInputActionCollection2, IDisposable
             @Reverse.started -= instance.OnReverse;
             @Reverse.performed -= instance.OnReverse;
             @Reverse.canceled -= instance.OnReverse;
-            @TurnRight.started -= instance.OnTurnRight;
-            @TurnRight.performed -= instance.OnTurnRight;
-            @TurnRight.canceled -= instance.OnTurnRight;
-            @TurnLeft.started -= instance.OnTurnLeft;
-            @TurnLeft.performed -= instance.OnTurnLeft;
-            @TurnLeft.canceled -= instance.OnTurnLeft;
+            @Steer.started -= instance.OnSteer;
+            @Steer.performed -= instance.OnSteer;
+            @Steer.canceled -= instance.OnSteer;
         }
 
         /// <summary>
@@ -506,18 +507,11 @@ public partial class @Car: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReverse(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "TurnRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Steer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnTurnRight(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "TurnLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnTurnLeft(InputAction.CallbackContext context);
+        void OnSteer(InputAction.CallbackContext context);
     }
 }
