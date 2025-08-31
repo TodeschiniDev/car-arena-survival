@@ -17,6 +17,10 @@ public class SphereCarController : MonoBehaviour
     public float groundRayLength = .5f;
     [SerializeField] Transform groundRayPoint;
 
+    //Wheels
+    [SerializeField] Transform leftFrontWhell, rightFrontWhell;
+    [SerializeField] float maxWheelTurn = 25f;
+
     public void OnAccelerate(InputAction.CallbackContext c) => speedInput = c.ReadValue<float>();
     public void OnSteer(InputAction.CallbackContext c) => turnInput = c.ReadValue<float>();
     public void OnReverse(InputAction.CallbackContext c) => reverseInput = c.ReadValue<float>();
@@ -27,19 +31,19 @@ public class SphereCarController : MonoBehaviour
 
     void Update()
     {
-        transform.position = rb.transform.position;
-        if(grounded) Turn();
+        MeshfollowRb();
+        Turn();
     }
 
     private void FixedUpdate()
     {
         grounded = false;
-        RaycastHit groundHit;
+        RaycastHit hit;
 
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out groundHit, groundRayLength, whatIsGround))
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, whatIsGround))
         {
             grounded = true;
-            transform.rotation = Quaternion.FromToRotation(transform.up, groundHit.normal) * transform.rotation;
+            SetCarInclination(hit.normal);
         }
 
         if(grounded)
@@ -55,6 +59,11 @@ public class SphereCarController : MonoBehaviour
         }
     }
 
+    private void MeshfollowRb()
+    {
+        transform.position = rb.transform.position;
+    }
+
     private void Accelerate()
     {
         if(rb.linearVelocity.z < maxSpeed) rb.AddForce(transform.forward * speedInput * forwardAcceleration);
@@ -67,8 +76,19 @@ public class SphereCarController : MonoBehaviour
 
     private void Turn()
     {
-        float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
-        float currentSpeedRange = Mathf.InverseLerp(0f, maxSpeed, Mathf.Abs(forwardSpeed));
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * currentSpeedRange * turnStrength * Time.deltaTime, 0f));
+        if (grounded)
+        {
+            float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
+            float currentSpeedRange = Mathf.InverseLerp(0f, maxSpeed, Mathf.Abs(forwardSpeed));
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * currentSpeedRange * turnStrength * Time.deltaTime, 0f));
+        }
+
+        leftFrontWhell.localRotation = Quaternion.Euler(leftFrontWhell.localRotation.eulerAngles.x, turnInput * maxWheelTurn, leftFrontWhell.localRotation.eulerAngles.z);
+        rightFrontWhell.localRotation = Quaternion.Euler(rightFrontWhell.localRotation.eulerAngles.x, turnInput* maxWheelTurn, rightFrontWhell.localRotation.eulerAngles.z);
+    }
+
+    private void SetCarInclination(Vector3 surfaceNormal)
+    {
+        transform.rotation = Quaternion.FromToRotation(transform.up, surfaceNormal) * transform.rotation;
     }
 }
